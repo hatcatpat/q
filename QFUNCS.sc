@@ -62,19 +62,12 @@ M { // pmono
 		var ret = nil;
 		items = ~q.scanBindArgs(items);
 
-		if( items.includes(\cl) ){
-			var index = items.indexOf(\cl);
-			clutch = items[index+1];
-			2.do({ items.removeAt(index) });
-		};
-
-		if( items.includes(\fn) ){
+		if( items.includes(\fn) ){ // takes a function, i.e {|e| e[\n].postln; }, and turns it into a Pfunc which is placed at the end of the arg sequence
 			var index = items.indexOf(\fn);
 			var func = Pfunc(items[index+1]);
 			2.do({ items.removeAt(index) });
 			items = items ++ [\func, func];
 		};
-
 
 		ret = Pmono(*items);
 
@@ -183,7 +176,7 @@ KRV { // pkr which returns the value of the bus, not a pfunc
 		}
 	}
 }
-BUS { //creates a synth node with a given bus
+BUS { //creates a kr synth node with a given bus
 	*new{
 		arg ... args;
 		var name, synth;
@@ -194,7 +187,7 @@ BUS { //creates a synth node with a given bus
 			synth = args[0];
 			args.removeAt(0);
 
-			if( args.includes(\t) ){
+			if( args.includes(\t) ){ // use t to make a frequency in terms of the global BPM
 				var index = args.indexOf(\t);
 				var t = 1 / T(args[index+1]);
 				2.do({ args.removeAt(0); });
@@ -258,7 +251,7 @@ DV { // (sample) dictionary value (not a Pindex)
 		^(~q.getSampleDict.at(folder).wrapAt(sample) );
 	}
 }
-FX { // creates a new fx group/bus/output-synth
+FX { // creates a new fx group + bus
 	var name, group, bus;
 	*new {
 		arg n;
@@ -285,7 +278,7 @@ BPM { // sets bpm
 		~q.bpm(bpm);
 	}
 }
-FUNC { // a pbind whose arguments are just used as arguments for a function, doesn't play a sound
+FUNC { // a pbind whose arguments are just used as arguments for a function, doesn't play a sound. I.e, calls function with arguments every \dur.
 	*new{
 		arg ... items;
 		var clutch;
@@ -376,7 +369,7 @@ T {
 		^( x * TempoClock.default.beatDur );
 	}
 }
-MIDI {
+MIDI { // returns DFN for a MIDI knob/slider. Optional min/max return values.
 	*new{
 		arg x,lo,hi;
 		x = x.asSymbol;
@@ -387,7 +380,7 @@ MIDI {
 		};
 	}
 }
-MIDIV {
+MIDIV { // as above but returns a value not a DFN
 	*new {
 		arg x,lo,hi;
 		x = x.asSymbol;
@@ -405,7 +398,7 @@ MAP { // maps the given input,min,max to the range out_min <-> out_max
 	}
 }
 
-PRINT {
+PRINT { // prints arguments
 	*new{
 		arg ... args;
 		var str = "";
@@ -415,13 +408,13 @@ PRINT {
 		str.postln;
 	}
 }
-TRIG {
+TRIG { // useful to map a unipolar function to lo and hi
 	*new {
 		arg x,lo=0,hi=1;
 		^RNG( 0.5 + (0.5*x), lo,hi);
 	}
 }
-BUTTON {
+BUTTON { // maps a given MIDI button to a function, with optional width/height of button selection
 	*new {
 		arg x,y,func,w=1,h=1;
 
@@ -432,7 +425,7 @@ BUTTON {
 		});
 	}
 }
-SYNTH {
+SYNTH { // makes a Synth, so Synth(\s, [\n,60], addAction:0) == SYNTH(\s,\n,60,\action,0)
 	*new {
 		arg ... args;
 		var name, target, action;

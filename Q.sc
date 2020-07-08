@@ -20,7 +20,9 @@ Q {
 
 		Event.addEventType(\null,{});
 
-		("Documents/SuperCollider/Setup/synthdefs.scd").load;
+
+		(Platform.userExtensionDir++"q/Setup/synthdefs.scd").load;
+		// ("Documents/SuperCollider/Setup/synthdefs.scd").load;
 		this.loadSamples;
 
 		if(midi == true){ this.loadMidi; };
