@@ -25,6 +25,8 @@ Pdef( NAME, Pbind(\instrument,\s, // i.e, in B the first argument is always the 
 	\timingOffset,0)
 ).play;
 
+```
+
 // In more detail ...
 // B represents a Pbind
 // M represents a Pmono
@@ -54,6 +56,7 @@ Pdef( NAME, Pbind(\instrument,\s, // i.e, in B the first argument is always the 
 // it expects to find a bunch of folders, i.e, kick, snare, etc. Each containing a bunch of wav files.
 // To change this directory, manually edit ~q.loadSamples (i'll fix this soon maybe ;) )
 
+```SuperCollider
 (
 DF(NAME, B(\smp,
 	\buf,D(FOLDER,SAMP), // folder should be a symbol representing the folder name, and sample a number
@@ -70,12 +73,14 @@ DF(NAME, M(\loop, // use the loop synth when using M
 	\dur,8
 ));
 )
-
+```
 
 //// MIDI:
 // Warning: This has been setup with a nanoKONTROL2 on Linux, so the cc numbers of the sliders will vary massively with
 // any other midi device. Manually edit ~q.loadMidi to setup your own device!
 // Either use ~q = Q(s,true) to setup MIDI, or use "~q = Q(s); ~q.loadMidi"
+
+```SuperCollider
 ~q = Q(s,true);
 
 (
@@ -92,10 +97,11 @@ MIDIV(\k0) // this returns the value of knob 0 as a float
 // this sets the buttons [0,0],[0,1],[0,2],[1,0],[1,1],[1,2] to the given function (in this case a synth)
 // the function takes two arguments, corresponding to x and y coord of button
 BUTTON(0,0, {|x,y| SYNTH(\s, \n,DE(x,y+3),\r,MIDIV(\k0,0.1,2) ) }, w:3,h:2)
-
+```
 
 //// FX routing
 
+```SuperCollider
 FX( FX_GROUP ) // this will create a unique bus number and create a group under the given name
 
 (
@@ -114,10 +120,12 @@ DF(NAME, B(\s,\n,DE(0,4),
 ));
 // DF(NAME);
 )
+```
 
 //// KR Busses:
 // This requires BenoitLib's Pkr extension!
 
+```SuperCollider
 // This creates a unique bus number for BUS_NAME, and adds a Synth to it (using the synthdef name)
 BUS( BUS_NAME, BUS_SYNTHDEF, \t,4, \x,1,\y,3,\z,4, ... ) // \t gets converted to beats (rather than seconds)
 
