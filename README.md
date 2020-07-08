@@ -1,4 +1,4 @@
-# q
+## q
 A Supercollider library to help speed up livecoding, as well as some utilities for audio-visual livecoding
 
 ```SuperCollider
@@ -27,34 +27,28 @@ Pdef( NAME, Pbind(\instrument,\s, // i.e, in B the first argument is always the 
 
 ```
 
-// In more detail ...
-// B represents a Pbind
-// M represents a Pmono
-// S represents a Pseq
-// R,RX,RW are Prand, Pxrand, Prwand
+# In more detail ...
+* B represents a Pbind
+* M represents a Pmono
+* S represents a Pseq
+* R,RX,RW are Prand, Pxrand, Prwand
 
-// Certain key symbols do things to that sequence:
-//// Some, like \st, embed the sequence into another:
-//// I.e, S(0,3,5,\st,4) represents Pstut(4, Pseq([0,3,5],inf) ), so \st for "stutter".
-//// \r represents the "repeat" argument for a sequence, so S(0, R(1,2,3,\r,1), 4) would give 0, followed by a random
-//// number from [1,2,3], followed by 4, and so on. Whereas S(0, R(1,2,3), 4) would give 0, followed by a random number
-//// from [1,2,3], followed by another random number, followed by another ... etc, forever (because it has /r = inf by
-//// default).
+## Certain key symbols do things to that sequence:
+ Some, like \st, embed the sequence into another:
+ I.e, S(0,3,5,\st,4) represents Pstut(4, Pseq([0,3,5],inf) ), so \st for "stutter".
+ \r represents the "repeat" argument for a sequence, so S(0, R(1,2,3,\r,1), 4) would give 0, followed by a random number from [1,2,3], followed by 4, and so on. Whereas S(0, R(1,2,3), 4) would give 0, followed by a random number from [1,2,3], followed by another random number, followed by another ... etc, forever (because it has /r = inf by default).
 
-// There are also key symbols for Pbinds:
-//// \cl embeds the Pbind into a Pclutch, so if \cl = 0, the sequence will not increase its position (just repeat the last
-//// set of values it received).
-//// Some are just shorthand, for instance \of just becomes \timingOffset
-//// Some are more complex. "\fx,FX(\delay)" for instance, gets converted to "\bus,FX(\delay).b,\group,FX(\delay).g" (*see FX)
+## There are also key symbols for Pbinds:
+* \cl embeds the Pbind into a Pclutch, so if \cl = 0, the sequence will not increase its position (just repeat the last set of values it received).
+* Some are just shorthand, for instance \of just becomes \timingOffset
+* Some are more complex. "\fx,FX(\delay)" for instance, gets converted to "\bus,FX(\delay).b,\group,FX(\delay).g" (*see FX)
 
-// For more functions, look at QFUNCS
+## For more functions, look at QFUNCS
 
-// Extras:
+# Extras:
 
-//// Samples:
-// Q create a sample dictionary using samples located in "Documents/SuperCollider/Samples"
-// it expects to find a bunch of folders, i.e, kick, snare, etc. Each containing a bunch of wav files.
-// To change this directory, manually edit ~q.loadSamples (i'll fix this soon maybe ;) )
+## Samples:
+Q create a sample dictionary using samples located in "Documents/SuperCollider/Samples" it expects to find a bunch of folders, i.e, kick, snare, etc. Each containing a bunch of wav files. To change this directory, manually edit ~q.loadSamples (i'll fix this soon maybe ;) )
 
 ```SuperCollider
 (
@@ -75,10 +69,8 @@ DF(NAME, M(\loop, // use the loop synth when using M
 )
 ```
 
-//// MIDI:
-// Warning: This has been setup with a nanoKONTROL2 on Linux, so the cc numbers of the sliders will vary massively with
-// any other midi device. Manually edit ~q.loadMidi to setup your own device!
-// Either use ~q = Q(s,true) to setup MIDI, or use "~q = Q(s); ~q.loadMidi"
+## MIDI:
+Warning: This has been setup with a nanoKONTROL2 on Linux, so the cc numbers of the sliders will vary massively with any other midi device. Manually edit ~q.loadMidi to setup your own device! Either use ~q = Q(s,true) to setup MIDI, or use "~q = Q(s); ~q.loadMidi"
 
 ```SuperCollider
 ~q = Q(s,true);
@@ -99,7 +91,7 @@ MIDIV(\k0) // this returns the value of knob 0 as a float
 BUTTON(0,0, {|x,y| SYNTH(\s, \n,DE(x,y+3),\r,MIDIV(\k0,0.1,2) ) }, w:3,h:2)
 ```
 
-//// FX routing
+## FX routing
 
 ```SuperCollider
 FX( FX_GROUP ) // this will create a unique bus number and create a group under the given name
@@ -122,8 +114,8 @@ DF(NAME, B(\s,\n,DE(0,4),
 )
 ```
 
-//// KR Busses:
-// This requires BenoitLib's Pkr extension!
+## KR Busses:
+This requires BenoitLib's Pkr extension!
 
 ```SuperCollider
 // This creates a unique bus number for BUS_NAME, and adds a Synth to it (using the synthdef name)
