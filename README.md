@@ -1,6 +1,10 @@
 ## q
 A Supercollider library to help speed up livecoding, as well as some utilities for audio-visual livecoding
 
+##### CONTENTS
+* [Installation](#installation)
+* [Extras](#extras)
+* [QAV](#qav)
 ```SuperCollider
 
 ~q = Q(s) // creates Q, optionally you can use Q(s,true) if you want to enable MIDI at startup.
@@ -136,7 +140,7 @@ BUS(BUS_NAME) // this clears the Synth from the Bus
 
 ```
 
-# QAV (Q-Audio-Visuals)
+# QAV
 QAV is another tool to help speed up livecoding, this time with visuals.
 
 ## INIT
