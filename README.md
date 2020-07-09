@@ -136,20 +136,20 @@ BUS(BUS_NAME) // this clears the Synth from the Bus
 
 ```
 
-## QAV (Q-Audio-Visuals)
+# QAV (Q-Audio-Visuals)
 QAV is another tool to help speed up livecoding, this time with visuals.
 
-# INIT
+## INIT
 This sets up ~q with midi, and sets ~w as our window.
 ```SuperCollider
 ~q = Q(s,true);
 ~w = QAV(500,500, GreyColor(0) ); // w,h, background color
 ```
-# VARIABLES
+## VARIABLES
 ```SuperCollider
 ~x = 300; // for example
 ```
-# OBJECTS
+## OBJECTS
 You can't make actual Objects on the fly in SuperCollider, but you can simply create an IdentityDictionary containing all the variables and methods as you usually would! In this example I use ObjectArray to create an array of objects (cryptic, I know). You specify the "constructor" of your object (in this case, ~rgbF) with ```~rgb = ObjectArray(~rgbF)```, and then you call ```~rgb.add( ... )``` to add new objects to the array. Use ```~rgb.draw``` to iterate over the array and draw each of the objects, this is just shorthand for ```~rgb.array.do({|o| o[\draw].value }).```.
 ```SuperCollider
 (
@@ -219,7 +219,7 @@ You can't make actual Objects on the fly in SuperCollider, but you can simply cr
 });
 )
 ```
-# DRAW
+## DRAW
 Change ~draw on the fly to edit the draw function
 ```SuperCollider
 (
@@ -233,7 +233,7 @@ Change ~draw on the fly to edit the draw function
 };
 )
 ```
-# MANUAL EDITING
+## MANUAL EDITING
 ```SuperCollider
 ( // run this to add an object!
 ~rgb.add(
@@ -245,7 +245,7 @@ Change ~draw on the fly to edit the draw function
 );
 )
 ```
-# MIDI
+## MIDI
 ```SuperCollider
 (
 BUTTON(0,0, {|x,y| // you can map a button function to do whatever you want!
