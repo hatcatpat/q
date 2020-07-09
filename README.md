@@ -54,6 +54,23 @@ Execute ```Platform.userExtensionDir``` to find your extension folder, then extr
 
 # Extras:
 
+## SET / ALL:
+Using SET, you can temporarily remap a parameter of a given DF. For example, if we had ```DF(\a, B(\s,\n,60) )```, we could do ```SET(\a,\n,40)``` to change "\n" to 40 instead of 60. To reset "\n", we'd do ```SET(\a)```.
+```SuperCollider
+DF(\a, B(\s,\n,S(40,50,60), \r,0.2 ) ) // this creates the DF
+SET(\a,\n,40,\r,0.6) // this sets the note to 40 and the release to 0.6
+SET(\a,\n,40) // now \r is back to 0.2
+SET(\a) // resets back to normal
+
+DF(\b, B(\s,\n,80, \r,0.5 ) ) // can do multiple DF in one go
+SET([\a,\b], \n,50) // this sets \n to 50 on both \a and \b
+SET([\a,\b]) // resets both
+
+// can also use ALL to set every current DF
+ALL(\n,50) // sets
+ALL() // resets
+```
+
 ## Samples:
 Q create a sample dictionary using samples located in "Documents/SuperCollider/Samples" it expects to find a bunch of folders, i.e, kick, snare, etc. Each containing a bunch of wav files. To change this directory, manually edit ~q.loadSamples (i'll fix this soon maybe ;) )
 
