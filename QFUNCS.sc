@@ -1,9 +1,11 @@
 DF { // pdef
 	*new{
-		arg key,item=nil,when=1;
+		arg key,item=nil,when=1,update_dict=true;
 		if (item != nil){
 			var ret = Pdef(key, item).quant_(when).play;
-			~q.getDfDict[key] = item;
+			if(update_dict == true){
+				~q.getDfDict[key] = item;
+			};
 		} {
 			Pdef(key).clear;
 			~q.getDfDict.removeAt(key);
@@ -116,7 +118,6 @@ SH { // pshuf
 SSH { // pshuf inside pseq
 	*new{
 		arg ... args;
-		args = args ++ [\r,1];
 		^( S(~q.genericSeq(\sh, args) ) );
 	}
 }
@@ -276,6 +277,44 @@ BPM { // sets bpm
 	*new{
 		arg bpm;
 		~q.bpm(bpm);
+	}
+}
+SET { // temporarily overides the parameters of the given pattern names with a list of arguments
+	*new {
+		arg ... args;
+		var names = args[0];
+		args.removeAt(0);
+
+		if( names.size == 0 ){
+			var name = names;
+			var p = ~q.getDfDict[name];
+			(args.size/2).do({|i| var j = i*2;
+				p = Pset( args[j], args[j+1], p );
+			});
+			DF(name, p, update_dict:false);
+		} {
+			names.do({|name|
+				var p = ~q.getDfDict[name];
+				(args.size/2).do({|i| var j = i*2;
+					p = Pset( args[j], args[j+1], p );
+				});
+				DF(name, p, update_dict:false);
+			});
+		};
+
+	}
+}
+ALL { // uses SET on all of the current DFs
+	*new{
+		arg ... args;
+		var names = ~q.getDfDict.keys;
+		SET( *([names]++args) );
+	}
+}
+RE { // repeats a single value a number of times
+	*new {
+		arg value, repeats=1;
+		^( S(value,\r,repeats) );
 	}
 }
 FUNC { // a pbind whose arguments are just used as arguments for a function, doesn't play a sound. I.e, calls function with arguments every \dur.
