@@ -21,8 +21,8 @@ Q {
 		Event.addEventType(\null,{});
 
 
-		(Platform.userExtensionDir++"q/Setup/synthdefs.scd").load;
-		// ("Documents/SuperCollider/Setup/synthdefs.scd").load;
+		(Platform.userExtensionDir++"/q/Setup/synthdefs.scd").load;
+		(Platform.userExtensionDir++"/q/Setup/snippets.scd").load; // requires DDWSnippets Quark
 		this.loadSamples;
 
 		if(midi == true){ this.loadMidi; };

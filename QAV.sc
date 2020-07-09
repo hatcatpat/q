@@ -81,6 +81,48 @@ QAV{
 	}
 }
 
+ObjectArray {
+
+	var add_func,kill, objs;
+
+	*new {
+		arg add_func_, kill_=true;
+		^super.new.init(add_func_, kill_);
+	}
+	init {
+		arg add_func_, kill_=true;
+		add_func = add_func_;
+		kill = kill_;
+
+		objs = [];
+	}
+	add {
+		arg ... args;
+		objs = objs ++ [add_func.value(*args)];
+		^objs;
+	}
+	draw {
+		arg ... args;
+		objs.do({|o|
+			o[\draw].value(*args)
+		});
+
+		if( kill == true ){
+			objs.do({|o|
+				if (o[\kill] == true){
+					objs.remove(o);
+				}
+			});
+		}
+	}
+	remove {
+		arg ... args;
+		objs.removeAll(args);
+	}
+	array { ^objs; }
+	setAddFunc { arg func; add_func = func; }
+}
+
 CenterRect {
 	*new {
 		arg x,y,w,h;
