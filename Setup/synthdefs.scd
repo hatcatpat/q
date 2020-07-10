@@ -52,6 +52,35 @@ SynthDef(\lob, { // low bass/drum
 	Out.ar(bus, sig*env*v );
 }).add;
 
+SynthDef(\weo, { // low wubby
+	arg bus=0, n=50, a=1, r=1, re=0.8,l=100, p=0, v=1,wub=0;
+	var env,sig;
+	var freq = n.midicps;
+	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
+
+	freq = freq * Select.kr(wub, [
+		SinOsc.kr(8).range(0,1),
+		Pulse.kr(8).range(0,1)
+	]);
+	sig = SinOsc.ar(freq);
+
+	sig = Pan2.ar( sig, p);
+	sig = RLPF.ar(sig, l,re);
+	Out.ar(bus, sig*env*v );
+}).add;
+
+SynthDef(\sh, { // angry dfm1
+	arg bus=0, n=60, a=0, r=1, re=1,l=10000, p=0, v=1, dfr=4,df=1000;
+	var env,sig;
+	var freq = n.midicps;
+	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
+	sig = Pulse.ar(freq);
+	sig = DFM1.ar(sig, df, dfr);
+	sig = Pan2.ar( sig, p);
+	sig = RLPF.ar(sig, l,re);
+	Out.ar(bus, sig*env*v );
+}).add;
+
 //################### FX
 
 SynthDef(\s_m, {

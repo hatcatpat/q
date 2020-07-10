@@ -1,4 +1,4 @@
-QAV{
+QAV{ // MAIN WINDOW
 
 	var window, view, width, height, sc, draw;
 
@@ -81,7 +81,7 @@ QAV{
 	}
 }
 
-ObjectArray {
+ObjectArray { // TOOL FOR MAKING ARRAYS OF CUSTOM "OBJECTS"
 
 	var add_func,kill, objs;
 
@@ -123,6 +123,69 @@ ObjectArray {
 	setAddFunc { arg func; add_func = func; }
 }
 
+VIDEO {
+	var <>images,<>pos,<>sp,region;
+
+	*new {
+		arg start,length,folder_name,video=nil;
+		if (video == nil){
+			^super.new.initFromFolder(start,length,folder_name);
+		}{
+			^super.new.initFromVIDEO(start,length,video);
+		}
+	}
+	initFromFolder {
+		arg start,length,folder_name;
+		var start_frames,length_frames;
+		var files = PathName(folder_name).files;
+
+		start_frames = floor( (files.size)*start);
+		length_frames = floor( (files.size)*(1-start)*length);
+
+		images = Array.fill(length_frames);
+		length_frames.do({|f|
+			PRINT("Loading Frame:",f);
+			images[f] = Image.new(files[f+start_frames].fullPath);
+		});
+		this.init;
+	}
+	initFromVIDEO {
+		arg start,length,video;
+		var start_frames,length_frames;
+
+		start_frames = floor( (video.images.size)*start);
+		length_frames = floor( (video.images.size)*(1-start)*length);
+
+		images = Array.fill(length_frames);
+		length_frames.do({|f|
+			images[f] = video.images[f+start_frames];
+		});
+
+		this.init;
+	}
+	init {
+		pos = 0;
+		sp = 1;
+		region = 0@1;
+	}
+	draw {
+		arg rect, fromRect=nil, operation= 'sourceOver', fraction=1.0;
+
+		images[pos+floor(region.x * (images.size) )].drawInRect(rect,fromRect,operation,fraction);
+
+		pos = pos + sp;
+		pos = ( pos % floor(region.y * (1-region.x) * (images.size) ) );
+	}
+	region_ {
+		arg r;
+		if (r.x >= 1){ r.x = 1 };
+		if (r.y >= 1){ r.y = 1 };
+		region = r;
+		pos = 0;
+	}
+}
+
+// UTILS
 CenterRect {
 	*new {
 		arg x,y,w,h;

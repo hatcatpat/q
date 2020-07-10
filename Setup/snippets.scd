@@ -46,6 +46,17 @@ DF(NAME, M(NAME,
 );
 ");
 
+DDWSnippets.put("FUNC","
+(
+DF(NAME, FUNC(\dur,8,
+	\fn, {|e|
+
+	}
+));
+// DF(NAME);
+);
+");
+
 // QAV
 
 DDWSnippets.put("OBJ","
