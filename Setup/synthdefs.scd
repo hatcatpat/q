@@ -125,7 +125,9 @@ SynthDef(\out, {
 SynthDef(\smp, {
 	arg buf,bus=0,ra=1,po=0,l=10000,v=0.5,p=0,a=0,s=1,r=0,lo=0;
 	var env;
-	var sig = PlayBuf.ar(2,buf,
+	var sig = PlayBuf.ar(
+		numChannels: 2,
+		bufnum: buf,
 		rate: BufRateScale.ir(buf) * ra,
 		startPos: BufDur.kr(buf)*44100*po,
 		loop: lo

@@ -157,11 +157,11 @@ K { //pkey
 }
 KR { //pkr
 	*new{
-		arg name;
+		arg name,out_min,out_max,in_min=(-1),in_max=1;
 		if (~q.get_kr_dict.at(name) == nil){
 			^Pkr(0);
 		} {
-			^Pkr(~q.get_kr_dict.at(name)[0]);
+			^MAP( Pkr(~q.get_kr_dict.at(name)[0]), in_min, in_max, out_min, out_max);
 		}
 	}
 }
@@ -284,6 +284,8 @@ SET { // temporarily overides the parameters of the given pattern names with a l
 		arg ... args;
 		var names = args[0];
 		args.removeAt(0);
+
+		args = ~q.scanBindArgs(args);
 
 		if( names.size == 0 ){
 			var name = names;

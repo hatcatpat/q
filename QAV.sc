@@ -1,16 +1,17 @@
 QAV{ // MAIN WINDOW
 
-	var window, view, width, height, sc, draw;
+	var window, view, width, height, sc, draw, name;
 
 	*new {
-		arg width_=600, height_=600, bg=Color.white;
-		^super.new.init(width_,height_,bg);
+		arg width_=600, height_=600, name_="generic_qav", bg=Color.white;
+		^super.new.init(width_,height_,name_,bg);
 	}
 	init {
-		arg width_,height_,bg;
+		arg width_,height_,name_,bg;
 
 		sc = 1;
 
+		name = name_;
 		width = width_;
 		height = height_;
 
@@ -28,7 +29,10 @@ QAV{ // MAIN WINDOW
 		view.keyDownAction = {
 			arg view,char,modifiers,unicode,keycode;
 			switch(char.asString,
-				"q", { window.close }
+				"q", { window.close },
+				"s", {
+					Image.fromWindow(window).write("Documents/SuperCollider/QAV/captures/"++name++(this.findHighestImageName+1)++".png");
+				}
 			);
 		};
 
@@ -41,6 +45,21 @@ QAV{ // MAIN WINDOW
 		view.animate = true;
 		CmdPeriod.doOnce({if(window.isClosed.not, {window.close})});
 
+	}
+
+	findHighestImageName {
+		var highest=0;
+		PathName("Documents/SuperCollider/QAV/captures").entries.do({|e|
+			e = e.fileName;
+			if( e.beginsWith(name) && e.endsWith(".png") ){
+				e = e.replace(name,"");
+				e = e.replace(".png","");
+				if( e.size > 0 ){
+					if ( e.asInteger > highest ){ highest = e.asInteger; }
+				}
+			}
+		});
+		^highest;
 	}
 
 	clear {
@@ -57,11 +76,11 @@ QAV{ // MAIN WINDOW
 		window.background = col;
 		view.background = col;
 	}
-	w{ ^width; }
-	h{ ^height; }
-	v{ ^view; }
-	wd{ ^window; }
-	sc{ arg sc_; sc = sc_; }
+	w{ ^width; } // width
+	h{ ^height; } // height
+	v{ ^view; } // view
+	wd{ ^window; } // window
+	sc{ arg sc_; sc = sc_; } // scale
 
 	// useful funcs
 
@@ -144,8 +163,11 @@ VIDEO {
 
 		images = Array.fill(length_frames);
 		length_frames.do({|f|
+			var file = files[f+start_frames].fullPath;
 			PRINT("Loading Frame:",f);
-			images[f] = Image.new(files[f+start_frames].fullPath);
+			if( file.endsWith(".jpg") || file.endsWith(".png") ){
+				images[f] = Image.new(file);
+			};
 		});
 		this.init;
 	}
