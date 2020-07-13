@@ -1,6 +1,8 @@
 ## q
 A Supercollider library to help speed up livecoding, as well as some utilities for audio-visual livecoding
 
+I've made a tutorial series that has two parts on Q and QAV: [This!](https://mostlypat.wordpress.com/category/supercollider-tutorial/)
+
 ##### CONTENTS
 * [Installation](#installation)
 * [Extras](#extras)
