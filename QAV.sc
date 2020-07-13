@@ -191,9 +191,9 @@ VIDEO {
 		region = 0@1;
 	}
 	draw {
-		arg rect, fromRect=nil, operation= 'sourceOver', fraction=1.0;
+		arg rect, fromRect=nil, mode= 'sourceOver', alpha=1.0;
 
-		images[pos+floor(region.x * (images.size) )].drawInRect(rect,fromRect,operation,fraction);
+		images[pos+floor(region.x * (images.size) )].drawInRect(rect,fromRect,mode,alpha);
 
 		pos = pos + sp;
 		pos = ( pos % floor(region.y * (1-region.x) * (images.size) ) );
