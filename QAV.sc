@@ -143,23 +143,25 @@ ObjectArray { // TOOL FOR MAKING ARRAYS OF CUSTOM "OBJECTS"
 }
 
 VIDEO {
-	var <>images,<>pos,<>sp,region;
+	var <>images,<>pos,<>sp,region, <buf;
 
 	*new {
-		arg start,length,folder_name,video=nil;
+		arg start,length,folder_name,video=nil,audio=nil;
 		if (video == nil){
-			^super.new.initFromFolder(start,length,folder_name);
+			^super.new.initFromFolder(start,length,folder_name,audio);
 		}{
 			^super.new.initFromVIDEO(start,length,video);
 		}
 	}
 	initFromFolder {
-		arg start,length,folder_name;
+		arg start,length,folder_name,audio;
 		var start_frames,length_frames;
 		var files = PathName(folder_name).files;
 
+
 		start_frames = floor( (files.size)*start);
 		length_frames = floor( (files.size)*(1-start)*length);
+		buf = Buffer.read(path:audio);
 
 		images = Array.fill(length_frames);
 		length_frames.do({|f|
@@ -191,17 +193,20 @@ VIDEO {
 		region = 0@1;
 	}
 	draw {
-		arg rect, fromRect=nil, mode= 'sourceOver', alpha=1.0;
+		arg rect, fromRect=nil, mode= 'sourceOver', alpha=1.0, increase=true;
 
 		images[pos+floor(region.x * (images.size) )].drawInRect(rect,fromRect,mode,alpha);
 
-		pos = pos + sp;
-		pos = ( pos % floor(region.y * (1-region.x) * (images.size) ) );
+		if(increase){
+			pos = pos + sp;
+			pos = ( pos % floor(region.y * (1-region.x) * (images.size) ) );
+		}
 	}
 	region_ {
 		arg r;
 		if (r.x >= 1){ r.x = 1 };
 		if (r.y >= 1){ r.y = 1 };
+		if ( r.x+r.y >= 1 ){ r = 0.9@0.1 };
 		region = r;
 		pos = 0;
 	}

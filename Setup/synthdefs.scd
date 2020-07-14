@@ -81,6 +81,20 @@ SynthDef(\sh, { // angry dfm1
 	Out.ar(bus, sig*env*v );
 }).add;
 
+SynthDef(\bb, { // all kinds of bad
+	arg bus=0, n=40, a=0, r=0.5, re=1,l=10000, p=0, v=1, dec=16000, df=1000,dfr=2, pw=0.1,pm=4;
+	var env,sig;
+	var freq = n.midicps;
+	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
+	sig = SinOsc.ar(freq * Pulse.kr(100,pw,pm) );
+	sig = DFM1.ar(sig, df, dfr);
+	sig = Decimator.ar(sig, dec);
+
+	sig = Pan2.ar( sig, p);
+	sig = RLPF.ar(sig, l,re);
+	Out.ar(bus, sig*env*v );
+}).add;
+
 //################### FX
 
 SynthDef(\s_m, {

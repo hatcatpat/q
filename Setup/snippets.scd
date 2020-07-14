@@ -24,37 +24,44 @@ DF(NAME, M(\\loop,\\buf,D(FOLDER,SAMP),
 // DF(NAME);
 )");
 
-DDWSnippets.put("SYNTHDEF", "
-(
+DDWSnippets.put("SYNTHDEF", "(
 SynthDef(NAME, {
 	arg bus=0, n=60, a=0, r=0.1, re=1,l=10000, p=0, v=1;
 	var env,sig;
 	var freq = n.midicps;
 	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
-	sig = Pan2.ar( SinOsc.ar(freq), p);
+	sig = SinOsc.ar(freq);
+	sig = Pan2.ar( sig, p);
 	sig = RLPF.ar(sig, l,re);
 	Out.ar(bus, sig*env*v );
 }).add;
 )
 ");
 
-DDWSnippets.put("FX","
-(
+DDWSnippets.put("FX","(
 DF(NAME, M(NAME,
 \\dur,4,\\fx,FX(NAME)));
 // DF(NAME);
 );
 ");
 
-DDWSnippets.put("FUNC","
-(
-DF(NAME, FUNC(\dur,8,
-	\fn, {|e|
+DDWSnippets.put("FUNC","(
+DF(NAME, FUNC(\\dur,8,
+	\\fn, {|e|
 
 	}
 ));
 // DF(NAME);
 );
+");
+
+DDWSnippets.put("L","DFN(\\l, Prewrite(1,
+	(
+		4: [ 2,1,2,1,2 ],
+		1: [ 4 ]
+	)
+	,2);
+)
 ");
 
 // QAV
