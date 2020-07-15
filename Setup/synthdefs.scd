@@ -187,7 +187,14 @@ SynthDef(\nstep, {
 
 SynthDef(\nramp, {
 	arg bus=0, freq=0.5;
-	Out.kr(bus, LFNoise1.kr(freq).range(-1,1) );
+	Out.kr(bus, LFNoise2.kr(freq).range(-1,1) );
+}).add;
+
+SynthDef(\amp, {
+	arg in=0,bus=0,a=0,r=0.05;
+	var sig = In.ar(in,2);
+	sig = Amplitude.kr(sig,a,r);
+	Out.kr(bus,sig);
 }).add;
 
 )

@@ -233,3 +233,14 @@ GreyColor {
 		^Color(c,c,c,a);
 	}
 }
+WRAP {
+	*new {
+		arg x,lo,hi,radius;
+		if( (x+radius) < lo){
+			x = hi;
+		}{
+			if( (x-radius) > hi){ x = lo };
+		};
+		^x;
+	}
+}

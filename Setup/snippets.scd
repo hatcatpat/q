@@ -70,7 +70,12 @@ DDWSnippets.put("OBJ","
 (
 ~NEWOBJF = {
 	arg x,y,r,col;
-	var o = (x:x,y:y,r:r,col:col);
+	var o = ();
+
+	o[\\x] = x;
+	o[\\y] = y;
+	o[\\r] = r;
+	o[\\col] = col;
 
 	o[\\kill] = false;
 	o[\\draw] = {|f|
