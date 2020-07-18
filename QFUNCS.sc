@@ -221,6 +221,17 @@ DE { // degree
 		}
 	}
 }
+NOTE { // enter strings NOTE OCT, returns midinote
+	*new{
+		arg str;
+		var note,oct,midinote=60;
+		note = str[0].asSymbol;
+		oct = str[1..].asInteger;
+		note = ~q.lettersToDegree[note];
+		midinote = note + (12*(oct+1) );
+		^midinote;
+	}
+}
 SC { // scale
 	*new{
 		arg scale=\major,degree=0,octave=3;

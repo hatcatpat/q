@@ -95,6 +95,28 @@ SynthDef(\bb, { // all kinds of bad
 	Out.ar(bus, sig*env*v );
 }).add;
 
+SynthDef(\cc, { // pulsey sine bass
+	arg bus=0, n=40, a=0, r=0.1, re=1,l=10000, p=0, v=1, sin=2,w=0.5;
+	var env,sig;
+	var freq = n.midicps;
+	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
+	sig = Pulse.ar(freq,w) * SinOsc.ar(freq*sin);
+	sig = Pan2.ar( sig, p);
+	sig = RLPF.ar(sig, l,re);
+	Out.ar(bus, sig*env*v );
+}).add;
+
+SynthDef(\ll, {
+	arg bus=0, n=40, a=0, r=0.5, re=1,l=200, p=0, v=1;
+	var env,sig;
+	var freq = n.midicps;
+	env = EnvGen.ar( Env.perc(a,r), doneAction:2 );
+	sig = Pulse.ar(freq);
+	sig = Pan2.ar( sig, p);
+	sig = RLPF.ar(sig, l,re);
+	Out.ar(bus, sig*env*v );
+}).add;
+
 //################### FX
 
 SynthDef(\s_m, {

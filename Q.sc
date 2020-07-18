@@ -1,5 +1,5 @@
 Q {
-	var s,sample_dict, fx_dict, fx_groups, kr_dict,kr_bus_count, df_dict, cc, midi_dict, stretch;
+	var s,<sample_dict, <fx_dict, <fx_groups, <kr_dict,<kr_bus_count, <df_dict, cc, <midi_dict, stretch, <lettersToDegree;
 	*new {
 		arg server, midi=false;
 		^super.new.init(server, midi)
@@ -18,8 +18,9 @@ Q {
 
 		stretch = 8;
 
-		Event.addEventType(\null,{});
+		lettersToDegree = (\c:0,\C:1,\d:2,\D:3,\e:4,\f:5,\F:6,\g:7,\G:8,\a:9,\A:10,\b:11);
 
+		Event.addEventType(\null,{});
 
 		(Platform.userExtensionDir++"/q/Setup/synthdefs.scd").load;
 		(Platform.userExtensionDir++"/q/Setup/snippets.scd").load; // requires DDWSnippets Quark
