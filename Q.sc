@@ -38,7 +38,7 @@ Q {
 			var g  = Group.new;
 			fx_dict.add( name -> [fx_groups, g] );
 			Synth(\out, [\bus,fx_groups], g, 'addToTail');
-			fx_groups = fx_groups + 1;
+			fx_groups = fx_groups + 2;
 		};
 		^fx_dict.at(name);
 	}

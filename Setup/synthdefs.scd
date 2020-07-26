@@ -133,7 +133,7 @@ SynthDef(\del, {
 	arg bus=0,t=0.125,c=2,v=1;
 	var in = In.ar(bus,2);
 	in = CombC.ar(in, 0.2, t, c, v);
-	Out.ar(0, in);
+	Out.ar(bus, in);
 }).add;
 
 SynthDef(\deci, {
@@ -148,6 +148,13 @@ SynthDef(\verb, {
 	var in = In.ar(bus,2);
 	in = FreeVerb.ar(in, m, r);
 	Out.ar(bus, in);
+}).add;
+
+SynthDef(\lpf, {
+	arg bus=0, l=10000;
+	var in = In.ar(bus,2);
+	in = LPF.ar(in, l);
+	ReplaceOut.ar(bus, in);
 }).add;
 
 SynthDef(\out, {

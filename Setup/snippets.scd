@@ -11,7 +11,7 @@ DF(NAME, B(\\s,\\n,DE(0,4),
 DDWSnippets.put("SMP", "(
 DF(NAME, B(\\smp,\\buf,D(FOLDER,SAMP),
 \t\\v,1,\\p,0,\\a,0,\\r,0,\\s,1,
-\t\\dur,8,\of,0,
+\t\\dur,8,\\of,0,
 ));
 // DF(NAME);
 )");
